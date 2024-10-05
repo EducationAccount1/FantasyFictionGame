@@ -1,68 +1,54 @@
-let G_width = window.innerWidth;
-let G_height = window.innerHeight;
+/*
+* Main Game Object
+* Relies on myCanvas in index.html
+* Constantly draws to the canvas using the standard canvas api
+*/
 
-// Main Game Object
-let game = new Phaser.Game(
-  G_width, G_height, Phaser.AUTO, 'game',
-  { preload: preload, create: create, update: update, render: render }
-);
+var canvas = document.getElementById("myCanvas");
+var width = canvas.width;
+var height = canvas.height;
+var ctx = canvas.getContext("2d"); // probably check if this is null
 
-class Race {
+// Draw the character, given a rectangle of size width, height starting at the top left point x, y
+function drawCharacter(x, y, width, height) {
+  // Calculate dimensions for the body parts
+  const headHeight = height * 0.2;
+  const bodyHeight = height * 0.3;
+  const armHeight = bodyHeight;
+  const legHeight = bodyHeight;
+  const armWidth = width * 0.2;
+  const legWidth = width * 0.2;
 
-}
-class Class {
+  // Draw head
+  ctx.fillStyle = 'blue';
+  ctx.fillRect(x + width * 0.4, y, width * 0.2, headHeight);
 
-};
+  // Draw body
+  ctx.fillStyle = 'green';
+  ctx.fillRect(x + width * 0.3, y + headHeight, width * 0.4, bodyHeight);
 
-// Main Character Class
-  const StrengthIndex = 0;
-  const DexterityIndex = 1;
-  const IntelligenceIndex = 2;
-  const WisdomIndex = 3;
-  const CharismaIndex = 4;
-  const ConstitutionIndex = 5
-class Character {
-  stats = [ 0, 0, 0, 0, 0 ];
-  Health = 0;
-  Level = 0;
-  race = new Race();
-  class_ = new Class();
-}
+  // Draw arms
+  ctx.fillStyle = 'red';
+  ctx.fillRect(x + width * 0.1, y + headHeight, armWidth, armHeight); // left arm
+  ctx.fillRect(x + width * 0.7, y + headHeight, armWidth, armHeight); // right arm
 
-function preload() {
-  // Intro Page (This should be removed after the creation)
-
-  // Loading Page
-
-  // Character Page
-  
-  // Game
-
-  /*
-    let good_bmd = game.add.bitmapData(100,100);
-    good_bmd.ctx.fillStyle = '#00ff00';
-    good_bmd.ctx.arc(50,50,50, 0, Math.PI * 2);
-    good_bmd.ctx.fill();
-    game.cache.addBitmapData('good', good_bmd);
-    let bad_bmd = game.add.bitmapData(64,64);
-    bad_bmd.ctx.fillStyle = '#ff0000';
-    bad_bmd.ctx.arc(32,32,32, 0, Math.PI * 2);
-    bad_bmd.ctx.fill();
-    game.cache.addBitmapData('bad', bad_bmd);
-  */
+  // Draw legs
+  ctx.fillStyle = 'yellow';
+  ctx.fillRect(x + width * 0.3, y + headHeight + bodyHeight, legWidth, legHeight); // left leg
+  ctx.fillRect(x + width * 0.5, y + headHeight + bodyHeight, legWidth, legHeight); // right leg
 }
 
-function create() {
-  // render intro page (if possible?)
-  // load character page
+
+function draw() {
+  // clear the screen
+  ctx.clearRect(0, 0, width, height);
+
+  // Character Viewer will take 70% of the screen
+  // Selector / Manipulator will take 30% of the screen
+
+  let characterStart = width * 0.3;
+  drawCharacter(characterStart,0,width-characterStart,height);
+
 }
 
-function update() {
-  // check if character page
-
-  // else assume game state
-}
-
-function render() {
-}
-
+setInterval(draw, 10);
